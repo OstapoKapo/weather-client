@@ -5,17 +5,11 @@
     font-weight: $fontWeight;
   }
   
-  @mixin block($height) {
-    width: 100%;
-    height: $height;
-    display: flex;
-    justify-content: center;
-    &__container{
-      width: calc(100% - 200px);
-      height: 100%;
-      // border: 1px solid #000;
-      display: flex;
-    }
+  @mixin block() {
+    padding: 10px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.1); 
+    backdrop-filter: blur(10px); 
   }
   
   @mixin center(){
