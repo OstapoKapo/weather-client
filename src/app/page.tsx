@@ -3,6 +3,7 @@ import Image from 'next/image';
 import CurrentWeather from './components/currentWeather/currentWeather';
 import HoursTemp from './components/hoursTemp/hoursTemp';
 import WindMap from './components/windMap/windMap';
+import DaysTemp from './components/daysTemp/daysTemp';
 
 export default function Home() {
   return (
@@ -20,8 +21,7 @@ export default function Home() {
       <div className="main__content">
         <HoursTemp/>
         <WindMap />
-        <div className="main__day-temp"></div>
-        <div className="main__map-temp"></div>
+        <DaysTemp/>
       </div>
     </div>
   );

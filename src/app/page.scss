@@ -1,8 +1,9 @@
 @use './scss/mixins.scss';
 
 .main{
+    @include mixins.container();   
     padding: 20px clamp(10px, 2vw, 50px);
-    @include mixins.container();
+    height: min-content;
     background-size: cover;
     background-position: 50%;
     &__header{
@@ -43,12 +44,13 @@
         }
     }
     &__content{
+        height: min-content;
         gap: 20px;
         margin: 40px 0;
         width: 100%;
         height: min-content;
-        display: flex;
-        flex-wrap: wrap;
-        padding-inline: clamp(10px, 7vw, 160px);
-    }
+        display: grid;
+        grid-template-columns: repeat(4, 1fr); /* 4 стовпці однакової ширини */
+        box-sizing: border-box;
+        padding-inline: clamp(10px, 7vw, 160px);    }
 }
