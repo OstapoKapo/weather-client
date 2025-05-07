@@ -17,7 +17,9 @@
     align-items: center;
     justify-content: center;
   }
-  
+  @mixin rgbaColor(){
+    color: rgba(255, 255, 255, 0.3); 
+  }
   @mixin row($height){
     width: 100%;
     height: $height;

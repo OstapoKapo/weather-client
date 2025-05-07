@@ -23,7 +23,7 @@
       }
       &__name{
         margin-left: 10px;
-        @include mixins.text(#fff, 15px, 600);
-        color: rgba(255, 255, 255, 0.50); 
+        @include mixins.text(#fff, 12px, 600);
+        @include mixins.rgbaColor();
       }
 }

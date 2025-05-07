@@ -1,36 +1,41 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<h1 align="center">🌦️ Weather App</h1>
 
-## Getting Started
+<p align="center">
+  <img src="https://img.shields.io/github/stars/yourname/weather-app?style=flat-square" />
+  <img src="https://img.shields.io/github/issues/yourname/weather-app?style=flat-square" />
+  <img src="https://img.shields.io/github/license/yourname/weather-app?style=flat-square" />
+</p>
 
-First, run the development server:
+<p align="center">
+  Інтерактивний застосунок для перегляду 10-денного прогнозу погоди, побудований на стеку <b>Next.js</b> + <b>NestJS</b> з сучасною стилізацією та обробкою даних.
+</p>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Демо
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+<img src="https://your-screenshot-link.png" alt="Weather App Preview" width="100%" />
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🧠 Особливості
 
-To learn more about Next.js, take a look at the following resources:
+- 🌐 Отримання даних з погодного API
+- 🎨 Градієнтні температурні діапазони
+- 📊 Візуалізація мін/макс температури з адаптивною шкалою
+- ⚛️ Стейт-менеджмент через Redux Toolkit
+- 🧾 Серверна логіка через NestJS
+- 📱 Адаптивний дизайн
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🛠️ Технології
 
-## Deploy on Vercel
+- [Next.js](https://nextjs.org/)
+- [NestJS](https://nestjs.com/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Redux Toolkit](https://redux-toolkit.js.org/)
+- [SCSS](https://sass-lang.com/) або TailwindCSS (за вибором)
+- Weather API (напр., [OpenWeather](https://openweathermap.org/api))
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
