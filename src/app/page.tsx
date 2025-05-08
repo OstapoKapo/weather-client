@@ -4,10 +4,11 @@ import CurrentWeather from './components/currentWeather/currentWeather';
 import HoursTemp from './components/hoursTemp/hoursTemp';
 import WindMap from './components/windMap/windMap';
 import DaysTemp from './components/daysTemp/daysTemp';
+import EqualBlock from './components/equalBlock/equalBlock';
 
 export default function Home() {
   return (
-    <div className='main' style={{ backgroundImage: `url('/background/night-clear.png')` }}>
+    <div className='main' style={{ backgroundImage: `url('/background/night-cloud.png')` }}>
       <div className="main__header">
         <div className="main__burger">
           <Image alt='burgerImg' src={'/icon/menu.svg'} width={30} height={30}></Image>
@@ -22,6 +23,12 @@ export default function Home() {
         <HoursTemp/>
         <WindMap />
         <DaysTemp/>
+        <EqualBlock type='sunrise'/>
+        <EqualBlock type='wind'/>
+        <EqualBlock type='sunset'/>
+        <EqualBlock type='pressure'/>
+        <EqualBlock type='humidity'/>
+        <EqualBlock type='visibility'/>
       </div>
     </div>
   );

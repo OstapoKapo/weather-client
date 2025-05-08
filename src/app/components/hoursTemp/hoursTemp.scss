@@ -2,10 +2,11 @@
 
 .hours-temp{
     width: 100%;
-    height: 150px;
+    height: 100%;
     flex-grow: 1;
     @include mixins.block();
-    grid-column:  1 / span 3; 
+    grid-row: 1;
+    grid-column:  1 / span 4; 
     &__header{
         margin-bottom: 5px;
         @include mixins.text(#fff, 12px, 500);

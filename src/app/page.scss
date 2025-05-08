@@ -3,7 +3,7 @@
 .main{
     @include mixins.container();   
     padding: 20px clamp(10px, 2vw, 50px);
-    height: min-content;
+    height: auto; 
     background-size: cover;
     background-position: 50%;
     &__header{
@@ -50,7 +50,10 @@
         width: 100%;
         height: min-content;
         display: grid;
-        grid-template-columns: repeat(4, 1fr); /* 4 стовпці однакової ширини */
+        justify-content: center;
+        grid-template-columns: repeat(6, 12vw);
+        grid-auto-rows: 186px;
         box-sizing: border-box;
-        padding-inline: clamp(10px, 7vw, 160px);    }
+        padding-inline: clamp(10px, 7vw, 160px); 
+    }
 }

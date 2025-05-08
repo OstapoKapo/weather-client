@@ -2,9 +2,40 @@ import React, { useMemo } from 'react';
 import './daysTemp.scss';
 import Image from 'next/image';
 
+const days = [{
+    day: 'Today',
+    minTemp: 12,
+    maxTemp: 15
+}, {
+    day: 'Wed',
+    minTemp: 0,
+    maxTemp: 7
+}, {
+    day: 'Thu',
+    minTemp: 20,
+    maxTemp: 26
+},{
+    day: 'Today',
+    minTemp: 12,
+    maxTemp: 15
+}, {
+    day: 'Wed',
+    minTemp: 0,
+    maxTemp: 7
+}, {
+    day: 'Today',
+    minTemp: 12,
+    maxTemp: 15
+}, {
+    day: 'Wed',
+    minTemp: 0,
+    maxTemp: 7
+}
+]
+
 const DaysTemp: React.FC = () => {
     const minTemp =  8; 
-    const maxTemp =20; 
+    const maxTemp = 20; 
 
     // Функція для обчислення кольору
     const getColor = (temp: number): string => {
@@ -23,15 +54,15 @@ const DaysTemp: React.FC = () => {
 
     const getRangeStyle = (minTemp: number, maxTemp: number) => {
 
-        const minVisual = -10;
+        const minVisual = 0;
         const maxVisual = 30;
         const visualRange = maxVisual - minVisual;
 
         const clampedMin = Math.max(minVisual, Math.min(maxVisual, minTemp));
         const clampedMax = Math.max(minVisual, Math.min(maxVisual, maxTemp));
 
-        const maxDiff = 20;
-        const minVisualWidth = 10;
+        const maxDiff = 30;
+        const minVisualWidth = 20;
         const maxVisualWidth = 100;
 
         const diff = Math.abs(clampedMax - clampedMin);
@@ -59,26 +90,23 @@ const DaysTemp: React.FC = () => {
                 <Image alt='calendarImg' src={'/icon/calendar.svg'} width={20} height={20}></Image>
                 <p className='days-temp__name'>10-DAY FORECAST</p>
             </div>
-            <div className="days-temp__item">
-                <div className="days-temp__day">
-                    <h3>Today</h3>
-                </div>
-                <Image alt='calendarImg' src={'/icon/cloudy-weather.svg'} width={30} height={30}></Image>
-                <p><span>13°</span></p>
-                <div className="days-temp__graph">
-                    <div className="days-temp__range" style={style}></div>
-                </div>
-                <p>18°</p>
-            </div>
-            <div className="days-temp__item">
-                <h3>Tomorrow</h3>
-                <Image alt='calendarImg' src={'/icon/cloudy-weather.svg'} width={30} height={30}></Image>
-                <p><span>10°</span></p>
-                <div className="days-temp__graph">
-                    <div className="days-temp__range" style={style}></div>
-                </div>
-                <p>15°</p>
-            </div>
+            {days.map((day, index) => {
+                const style = getRangeStyle(day.minTemp, day.maxTemp);
+
+                return (
+                  <div key={index} className="days-temp__item">
+                    <div className="days-temp__day">
+                        <h3>{day.day}</h3>
+                    </div>
+                    <Image alt='calendarImg' src={'/icon/cloudy-weather.svg'} width={30} height={30}></Image>
+                    <p><span>{day.minTemp}</span></p>
+                    <div className="days-temp__graph">
+                        <div className="days-temp__range" style={style}></div>
+                    </div>
+                    <p>{day.maxTemp}</p>
+                  </div>
+                );  
+            })}
         </div>
     );
 };
