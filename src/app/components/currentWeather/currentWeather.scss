@@ -10,6 +10,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+       
         & p {
             margin-left: 1px;
             @include mixins.text(#fff, 17px, 600);

@@ -8,8 +8,13 @@
   @mixin block() {
     padding: 10px;
     border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.1); 
+    background-color: rgba(255, 255, 255, 0.05); 
     backdrop-filter: blur(10px); 
+    transition: 0.4s;
+
+    &:hover{
+      background-color: rgba(255, 255, 255, 0.1); 
+    }
   }
   
   @mixin center(){
@@ -45,8 +50,8 @@
     cursor: pointer;
   }
   
-  @mixin _1170 {
-    @media (max-width: 1170px){
+  @mixin meadia($width) {
+    @media (max-width: $width){
       @content;
     }
   }

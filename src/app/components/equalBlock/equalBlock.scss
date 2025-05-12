@@ -19,10 +19,46 @@
     &--sunrise{
         grid-column: 3;
         grid-row: 2;
+
     }
     &--wind{
         grid-column: 4;
         grid-row: 2;
     }
-   
+    @include mixins.meadia(1170px){
+        &--sunrise{
+            grid-column: 1;
+            grid-row: 4;
+        }
+        &--wind{
+            grid-column: 2;
+            grid-row: 4;
+        }
+    }
+    @include mixins.meadia(730px){
+        &--sunrise{
+            grid-column: 1;
+            grid-row: 6;
+        }
+        &--wind{
+            grid-column: 2;
+            grid-row: 6;
+        }
+        &--sunset{
+            grid-column: 1;
+            grid-row: 7;
+        }
+        &--pressure{
+            grid-column: 2;
+            grid-row: 7;
+        }
+        &--humidity{
+            grid-column: 1;
+            grid-row: 8;
+        }
+        &--visibility{
+            grid-column: 2;
+            grid-row: 8;
+        }
+    }
 }

@@ -5,7 +5,7 @@ const CurrentWeather = () => {
     return (
         <div className='currentWeather'>
           <div className="currentWeather__location">
-            <Image src={'/icon/location-mark.png'} alt='locationImg' width={20} height={13}></Image>
+            <Image src={'/icon/location-mark.png'} alt='locationImg' width={20} height={13} ></Image>
             <p>Home</p>
           </div>
           <h1>Yavoriv</h1>
