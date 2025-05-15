@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import './daysTemp.scss';
 import Image from 'next/image';
+import { currentDay, forecast5Days } from '@/types';
 
 const days = [{
     day: 'Today',
@@ -33,7 +34,12 @@ const days = [{
 }
 ]
 
-const DaysTemp: React.FC = () => {
+interface DaysTempProps {
+    forecast5Days:forecast5Days[],
+    currentDay: currentDay
+}
+
+const DaysTemp: React.FC<DaysTempProps> = ({forecast5Days, currentDay}) => {
     const minTemp =  8; 
     const maxTemp = 20; 
 
@@ -81,29 +87,37 @@ const DaysTemp: React.FC = () => {
         };
     };
 
-    // Використовуємо useMemo для оптимізації стилів
-    const style = useMemo(() => getRangeStyle(minTemp, maxTemp), [minTemp, maxTemp]);
+    const setTempPosition = (maxTemp: number,minTemp: number, currentTemp: number): number => {
+        if (maxTemp === minTemp) return 50; // щоб уникнути ділення на 0
+
+        const clampedTemp = Math.max(minTemp, Math.min(maxTemp, currentTemp));
+        const ratio = (clampedTemp - minTemp) / (maxTemp - minTemp);
+        const percent = ratio * 100;
+        return percent;
+    }
 
     return (
         <div className='days-temp'>
             <div className='days-temp__header'>
                 <Image alt='calendarImg' src={'/icon/calendar.svg'} width={20} height={20}></Image>
-                <p className='days-temp__name'>10-DAY FORECAST</p>
+                <p className='days-temp__name'>5-DAY FORECAST</p>
             </div>
-            {days.map((day, index) => {
+            {forecast5Days.map((day: forecast5Days, index) => {
                 const style = getRangeStyle(day.minTemp, day.maxTemp);
 
                 return (
                   <div key={index} className="days-temp__item">
                     <div className="days-temp__day">
-                        <h3>{day.day}</h3>
+                        <h3>{(day.day).substring(0,3)}</h3>
                     </div>
-                    <Image alt='calendarImg' src={'/icon/cloudy-weather.svg'} width={30} height={30}></Image>
-                    <p><span>{day.minTemp}</span></p>
+                    <img alt='calendarImg' src={`https://openweathermap.org/img/wn/${day.icon}@2x.png`}/>
+                    <p><span>{parseFloat((day.minTemp).toFixed(0))}°</span></p>
                     <div className="days-temp__graph">
-                        <div className="days-temp__range" style={style}></div>
+                        <div className="days-temp__range" style={style}>
+                            <div className="days-temp__mark" style={{display: index === 0 ? 'flex' : 'none' ,left: `${setTempPosition(currentDay.todayHighLow.max, currentDay.todayHighLow.min, 10)}%`}}></div>
+                        </div>
                     </div>
-                    <p>{day.maxTemp}</p>
+                    <p>{parseFloat((day.maxTemp).toFixed(0))}°</p>
                   </div>
                 );  
             })}

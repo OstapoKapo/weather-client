@@ -1,4 +1,4 @@
-@use '../../scss/mixins.scss';
+@use '../../../scss/mixins.scss';
 
 .days-temp{
     @include mixins.block();
@@ -19,12 +19,15 @@
         @include mixins.rgbaColor();
     }
     &__item{
+       
         width: 100%;
-        height: 50px;
+        height: 70px;
         display: flex;
         align-items: center;
         border-top:1px solid  rgba(255, 255, 255, 0.30);
         & img {
+            width: 50px;
+            height: 50px;
             margin: 0 30px;
         }
         & p{
@@ -59,5 +62,16 @@
         bottom: 0;
         background-color: #84d7c4; // колір температурного діапазону
         border-radius: 3px;
+        display: flex;
+        align-items: center;
       }
+    &__mark{
+        position: absolute;
+        transform: translateX(-50%);
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: #fff;
+        border: 1px solid #000;
+    }  
 }
