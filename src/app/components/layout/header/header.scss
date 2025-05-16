@@ -1,12 +1,13 @@
 @use '../../../scss/mixins.scss';
 
 .header{
+    padding: 20px 20px;
     margin-bottom: 10px;
     width: 100%;
     height: 50px;
     display: flex;
     justify-content: flex-end;
-    align-items: center;
+   
     &__add-btn{
         width: 90px;
         height: 35px;
@@ -20,7 +21,16 @@
             margin-left: 5px;
         }
     }
-    &__search-inp{
+    &__search{
+        & img{
+            cursor: pointer;
+        }
+        width: 20%;
+        height: 300px;
+        display: flex;
+        flex-direction: column;
+    }
+    &__inp{
         @include mixins.block();
         width: 250px;
         height: 35px;
@@ -39,6 +49,31 @@
             }
         }
     }
+    &__list{
+        cursor: pointer;
+        margin-top: 10px;
+        padding: 20px;
+        width: 80%;
+        height: min-content;
+        background-color: #2A2F39;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;     
+        z-index: 100;
+        & p{
+            @include mixins.text(#fff, 12px, 600);
+            @include mixins.rgbaColor();
+        }
+        & li{
+            transition: 0.4s;
+            color: #fff;
+            &:hover{
+                color: paleturquoise;
+            }
+        }
+    }
+        
     @include mixins.meadia(730px){
        &{
         margin-bottom: 30px;

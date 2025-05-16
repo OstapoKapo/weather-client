@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="cancel">
+  <g fill="#000000" class="color000000 svgShape">
+    <circle cx="12" cy="12" r="10.75" fill="#7e7e7e" class="color13e4ea svgShape"></circle>
+    <path fill="#ffffff" d="M15.5 16.25a.744.744 0 0 1-.53-.22l-7-7a.75.75 0 0 1 1.06-1.06l7 7a.75.75 0 0 1-.53 1.28Z" class="colorffffff svgShape"></path>
+    <path fill="#ffffff" d="M8.5 16.25a.75.75 0 0 1-.53-1.28l7-7a.75.75 0 0 1 1.06 1.06l-7 7a.744.744 0 0 1-.53.22Z" class="colorffffff svgShape"></path>
+    <path fill="#505050" d="M12 22.75a10.738 10.738 0 1 1 3.225-.492.751.751 0 0 1-.45-1.432A9.256 9.256 0 1 0 12 21.25a.75.75 0 0 1 0 1.5Z" class="color007da1 svgShape"></path>
+  </g>
+</svg>

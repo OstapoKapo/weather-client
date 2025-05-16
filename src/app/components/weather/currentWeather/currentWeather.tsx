@@ -3,15 +3,20 @@ import Image from 'next/image';
 import {currentDay} from '@/types/index';
 
 interface CurrentWeatherProps {
+  homeKey: boolean;
   currentDay: currentDay
 }
 
-const CurrentWeather: React.FC<CurrentWeatherProps> = ({currentDay}) => {
+const CurrentWeather: React.FC<CurrentWeatherProps> = ({currentDay, homeKey}) => {
     return (
         <div className='currentWeather'>
           <div className="currentWeather__location">
-            <Image src={'/icon/location-mark.png'} alt='locationImg' width={20} height={13} ></Image>
-            <p>Capital</p>
+            {homeKey ? (
+              <>
+               <Image src={'/icon/location-mark.png'} alt='locationImg' width={20} height={13} ></Image>
+               <p>Home</p>
+              </>
+             ) : null}
           </div>
           <h1>{currentDay.name}</h1>
           <div className="currentWeather__temp">
