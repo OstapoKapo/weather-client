@@ -26,7 +26,7 @@ const WeatherClient: React.FC<WeatherClientProps> = ({defaultWeather}) => {
 
   const [query, setQuery] = useState<string>('');
   const [localCity, setLocalCity] = useState<weatherResponse | null>(null);
-  const [weatherData, setWeatherData] = useState<weatherResponse >(defaultWeather);
+  const [weatherData, setWeatherData] = useState<weatherResponse  | any >(null);
   const [choosenCity, setChosenCity] = useState<string>('');
   const [homeKey, setHomeKey] = useState<boolean>(false);
   const [page, setPage] = useState<number>(0);
