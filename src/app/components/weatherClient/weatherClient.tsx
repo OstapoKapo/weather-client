@@ -42,6 +42,7 @@ const WeatherClient: React.FC<WeatherClientProps> = ({defaultWeather}) => {
         const city = await getCityByCoords(latitude, longitude);
         const res = await getWeatherByCity(city);
         setWeatherData(res);
+        setHomeKey(true);
       }, () => {
         // Якщо користувач не дозволив геолокацію, ставимо погоду по замовчуванню
         setWeatherData(defaultWeather);
