@@ -1,10 +1,26 @@
+'use client'
 import './pagination.scss';
 
-const Pagination = () => {
+
+interface PaginationProps {
+    page: number;
+    setPage: (page: number) => void;
+    paginatedCities: string[];
+    choosenCity: string;
+}
+
+
+const Pagination: React.FC<PaginationProps> = ({page, setPage, paginatedCities, choosenCity}) => {
+
     return (
-        <div className='pagination'>
-            <div className="pagination__item pagination__item--active"></div>
-            <div className="pagination__item"></div>
+        <div style={{display: !choosenCity.trim() ? 'flex': 'none'}} className='pagination'>
+            {paginatedCities.map((item, index) => {
+                return (
+                    <div key={index} className={ page === index ? 'pagination__item pagination__item--active' : 'pagination__item' } onClick={() => setPage(index)}>
+                       
+                    </div>
+                )
+            })}
         </div>
     );
 }

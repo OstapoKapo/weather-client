@@ -2,13 +2,9 @@ import type { Metadata } from "next";
 import { Geist, Montserrat } from "next/font/google";
 import "./reset.css";
 import 'leaflet/dist/leaflet.css';
+import { ReduxProvider } from "./components/layout/provider/provider";
 
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-  display: 'swap', 
-});
 
 const geistMontserrat = Montserrat({
   variable: "--font-geist-mono",
@@ -31,9 +27,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMontserrat.variable}`}>
-        {children}
-      </body>
+      <ReduxProvider>
+        <body className={` ${geistMontserrat.variable}`}>
+          {children}
+        </body>
+      </ReduxProvider>
     </html>
   );
 }

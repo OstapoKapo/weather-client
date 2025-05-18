@@ -33,7 +33,7 @@ const EqualBlock:React.FC<IEqualBlock> = ({type, currentDay,hourlyForecast, fore
     }
 
     const getHoursAndMinutes = (date:number): string => {
-        const newDate = new Date(date * 1000); // Перетворюємо в мілісекунди
+        const newDate = new Date(date * 1000);
             
         const hours = newDate.getHours().toString().padStart(2, '0');
         const minutes = newDate.getMinutes().toString().padStart(2, '0');

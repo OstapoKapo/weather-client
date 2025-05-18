@@ -2,38 +2,6 @@ import React, { useMemo } from 'react';
 import './daysTemp.scss';
 import Image from 'next/image';
 import { currentDay, forecast5Days } from '@/types';
-
-const days = [{
-    day: 'Today',
-    minTemp: 12,
-    maxTemp: 15
-}, {
-    day: 'Wed',
-    minTemp: 0,
-    maxTemp: 7
-}, {
-    day: 'Thu',
-    minTemp: 20,
-    maxTemp: 26
-},{
-    day: 'Today',
-    minTemp: 12,
-    maxTemp: 15
-}, {
-    day: 'Wed',
-    minTemp: 0,
-    maxTemp: 7
-}, {
-    day: 'Today',
-    minTemp: 12,
-    maxTemp: 15
-}, {
-    day: 'Wed',
-    minTemp: 0,
-    maxTemp: 7
-}
-]
-
 interface DaysTempProps {
     forecast5Days:forecast5Days[],
     currentDay: currentDay
@@ -88,7 +56,7 @@ const DaysTemp: React.FC<DaysTempProps> = ({forecast5Days, currentDay}) => {
     };
 
     const setTempPosition = (maxTemp: number,minTemp: number, currentTemp: number): number => {
-        if (maxTemp === minTemp) return 50; // щоб уникнути ділення на 0
+        if (maxTemp === minTemp) return 50;
 
         const clampedTemp = Math.max(minTemp, Math.min(maxTemp, currentTemp));
         const ratio = (clampedTemp - minTemp) / (maxTemp - minTemp);
@@ -114,7 +82,7 @@ const DaysTemp: React.FC<DaysTempProps> = ({forecast5Days, currentDay}) => {
                     <p><span>{parseFloat((day.minTemp).toFixed(0))}°</span></p>
                     <div className="days-temp__graph">
                         <div className="days-temp__range" style={style}>
-                            <div className="days-temp__mark" style={{display: index === 0 ? 'flex' : 'none' ,left: `${setTempPosition(currentDay.todayHighLow.max, currentDay.todayHighLow.min, 10)}%`}}></div>
+                            <div className="days-temp__mark" style={{display: index === 0 ? 'flex' : 'none' ,left: `${setTempPosition(currentDay.todayHighLow.max, currentDay.todayHighLow.min, currentDay.main.temp)}%`}}></div>
                         </div>
                     </div>
                     <p>{parseFloat((day.maxTemp).toFixed(0))}°</p>

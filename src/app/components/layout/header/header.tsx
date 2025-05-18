@@ -4,11 +4,15 @@ import './header.scss';
 import Image from 'next/image';
 import debounce from 'lodash.debounce';
 import { fetchCities } from '@/services/weatherApi';
+import { addSity } from '@/services/user';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { weatherResponse } from '@/types';
 
 
 
 interface HeaderProps {
   query: string;
+  weatherData: weatherResponse;
   setQuery: (query: string) => void;
   setChosenCity: (city: string) => void;
 }
@@ -24,14 +28,17 @@ interface City {
   state: string;
 }
 
-const Header: React.FC<HeaderProps> = ({query, setQuery, setChosenCity}) => {
+const Header: React.FC<HeaderProps> = ({query, setQuery, setChosenCity, weatherData}) => {
    
-  const [suggestions, setSuggestions] = useState<[]>([]);
+  const dispatch = useAppDispatch();  
+  const user = useAppSelector((state)=> state.user);
+
+  const [choosenCityKey, setChosenCityKey] = useState<boolean>(false);
+
+  const [suggestions, setSuggestions] = useState<City[]>([]);
 
   const getFetchCities = async (input: string) => {
-    const data = await fetchCities(input);
-    console.log(data)
-    console.log(input)
+    const data:City[] = await fetchCities(input);
     setSuggestions(data);
   };
 
@@ -41,8 +48,13 @@ const Header: React.FC<HeaderProps> = ({query, setQuery, setChosenCity}) => {
   );
 
   useEffect(() => {
-    if (query.length > 1) {
+    if (query.trim()) {
       debouncedFetchCities(query.toLowerCase());
+    }
+    if(query.length === 0 ){
+      setSuggestions([]);
+      setChosenCityKey(false);
+      setChosenCity('')
     }
   }, [query]);
 
@@ -52,17 +64,25 @@ const Header: React.FC<HeaderProps> = ({query, setQuery, setChosenCity}) => {
     setChosenCity(cityName);
     setQuery(cityName);
     setSuggestions([]);
+    setChosenCityKey(true);
   }
 
   const handleCancelCity = () => {
     setChosenCity('');
     setQuery('');
-    console.log('cancel')
+    setSuggestions([]);
+    console.log('cancel');
+    setChosenCityKey(false);
   }
+
+  const handleAddCity = async () => {
+    await addSity(dispatch, weatherData.currentDay.name);
+  }
+
 
   return (
         <div className="header">
-          <div className="header__add-btn">
+          <div style={{display: user.bookmarks.includes(weatherData.currentDay.name) ? 'none': 'flex'}} className="header__add-btn" onClick={handleAddCity}>
             <Image alt='addImg' src={'/icon/add.svg'} width={20} height={20}></Image>
             <p>Add</p>
           </div>
@@ -78,7 +98,7 @@ const Header: React.FC<HeaderProps> = ({query, setQuery, setChosenCity}) => {
                 <Image alt='cancel' width={20} height={20} src={'/icon/cancel.svg'}></Image>
               </div>
             </div>
-            <div className='header__list' style={{display: suggestions.length > 1 ? 'flex' : 'none'}}>
+            <div className='header__list' style={{display: !choosenCityKey &&  suggestions.length >= 1 ? 'flex' : 'none'}}>
               <p>Search Results</p>
               <ul>
                 {suggestions.map((city:City, index) => (

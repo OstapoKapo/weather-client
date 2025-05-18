@@ -25,8 +25,8 @@
         & img{
             cursor: pointer;
         }
-        width: 20%;
-        height: 300px;
+        width: 250px;
+        height: min-content;
         display: flex;
         flex-direction: column;
     }
@@ -57,10 +57,10 @@
         height: min-content;
         background-color: #2A2F39;
         border-radius: 10px;
-        display: flex;
+        
         flex-direction: column;
-        gap: 10px;     
-        z-index: 100;
+        gap: 10px;    
+        z-index: 100; 
         & p{
             @include mixins.text(#fff, 12px, 600);
             @include mixins.rgbaColor();
