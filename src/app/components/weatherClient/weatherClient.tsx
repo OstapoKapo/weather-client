@@ -63,7 +63,7 @@ const WeatherClient: React.FC<WeatherClientProps> = ({defaultWeather}) => {
             setGeoChecked(true); 
           },
           {
-            timeout: 5000,
+            timeout: 10000,
             maximumAge: 0
           }
         );
