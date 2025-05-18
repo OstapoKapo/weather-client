@@ -10,7 +10,7 @@ import Pagination from '../ui/pagination/pagination';
 import Header from '../layout/header/header';
 
 import { getCityByCoords, getWeatherByCity } from '@/services/weatherApi';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { initUser } from '@/services/auth';
 import { set } from 'lodash';
@@ -24,6 +24,7 @@ const WeatherClient: React.FC<WeatherClientProps> = ({defaultWeather}) => {
   const dispatch = useAppDispatch();  
   const user = useAppSelector((state) => state.user);
 
+  const [geoChecked, setGeoChecked] = useState<boolean>(false);
   const [query, setQuery] = useState<string>('');
   const [localCity, setLocalCity] = useState<weatherResponse | null>(null);
   const [weatherData, setWeatherData] = useState<weatherResponse  | any >(null);
@@ -31,27 +32,50 @@ const WeatherClient: React.FC<WeatherClientProps> = ({defaultWeather}) => {
   const [homeKey, setHomeKey] = useState<boolean>(false);
   const [page, setPage] = useState<number>(0);
   const [paginatedCities, setPaginatedCities] = useState<string[]>([]);
+  const [lastAddedCity, setLastAddedCity] = useState<string | null>(null);
 
+  
 
 
 
   useEffect(() => {
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(async (position) => {
-        const { latitude, longitude } = position.coords;
-        const city = await getCityByCoords(latitude, longitude);
-        const res = await getWeatherByCity(city);
-        setWeatherData(res);
-        setHomeKey(true);
-      }, () => {
-        // Якщо користувач не дозволив геолокацію, ставимо погоду по замовчуванню
+    const fetchWeatherByGeolocation = async () => {
+      if ('geolocation' in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          async (position) => {
+            try {
+              const { latitude, longitude } = position.coords;
+              const city = await getCityByCoords(latitude, longitude);
+              const res = await getWeatherByCity(city);
+              setLocalCity(res);
+              setWeatherData(res);
+              setHomeKey(true);
+            } catch (err) {
+              console.error('Failed to fetch by geolocation', err);
+              setWeatherData(defaultWeather);
+            } finally {
+              setGeoChecked(true);
+            }
+          },
+          (error) => {
+            console.error('Geolocation error:', error);
+            setWeatherData(defaultWeather);
+            setGeoChecked(true); 
+          },
+          {
+            timeout: 5000,
+            maximumAge: 0
+          }
+        );
+      } else {
         setWeatherData(defaultWeather);
-      });
-    } else {
-      setWeatherData(defaultWeather);
-    }
+        setGeoChecked(true); 
+      }
+    };
+  
+    fetchWeatherByGeolocation();
   }, []);
-
+  
 
   useEffect(() => {
     initUser(dispatch);
@@ -59,24 +83,25 @@ const WeatherClient: React.FC<WeatherClientProps> = ({defaultWeather}) => {
 
   useEffect(() => {
     const fetchWeather = async () => {
-      if (choosenCity) {
+      if (!geoChecked) return;
+  
+      if (choosenCity.trim()) {
         const res = await getWeatherByCity(choosenCity);
-        setHomeKey(false)
-        setWeatherData(res); // замінює погоду
+        setHomeKey(false);
+        setWeatherData(res);
+      } else {
+        if (localCity) {
+          setHomeKey(true);
+          setWeatherData(localCity);
+        } else {
+          setHomeKey(false);
+          setWeatherData(defaultWeather);
+        }
       }
-      if(!choosenCity.trim()) {
-        if(localCity){
-            setHomeKey(true);
-            setWeatherData(localCity);
-        }else{
-            setHomeKey(false);
-            setWeatherData(defaultWeather);
-        }      
-    }
     };
-
+  
     fetchWeather();
-  }, [choosenCity]);
+  }, [choosenCity, geoChecked, localCity]);
 
   useEffect(() => {
     if (localCity) {
@@ -92,6 +117,7 @@ const WeatherClient: React.FC<WeatherClientProps> = ({defaultWeather}) => {
         setPaginatedCities(['Kyiv', ...user.bookmarks]);
     }
   }, [user.bookmarks, localCity]);
+  
 
   useEffect(() => {
     const handlePage = async () => {
@@ -122,9 +148,9 @@ const WeatherClient: React.FC<WeatherClientProps> = ({defaultWeather}) => {
 
   return (
     <>
-     {weatherData !== null ? 
+      {geoChecked && weatherData !== null ? 
      ( <div className='main' style={{ backgroundImage: `url('/background/night-cloud.png')` }}>
-        <Header query={query} weatherData={weatherData} setQuery={setQuery} setChosenCity={setChosenCity}/>
+        <Header setLastAddedCity={setLastAddedCity} query={query} weatherData={weatherData} setQuery={setQuery} setChosenCity={setChosenCity}/>
         <div className="container">
           <CurrentWeather homeKey={homeKey} currentDay={weatherData.currentDay}/>
           <div className="main__content" >
@@ -140,8 +166,7 @@ const WeatherClient: React.FC<WeatherClientProps> = ({defaultWeather}) => {
           </div>
         </div>
         <Pagination choosenCity={choosenCity} paginatedCities={paginatedCities} page={page} setPage={setPage}/>
-      </div>)
-     : ''}
+      </div>) : <div className='main' style={{ backgroundImage: `url('/background/night-cloud.png')`, height: '100vh' }}></div> }
     </>
   );
 }

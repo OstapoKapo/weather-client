@@ -11,6 +11,7 @@ import { weatherResponse } from '@/types';
 
 
 interface HeaderProps {
+  setLastAddedCity: (city: string) => void;
   query: string;
   weatherData: weatherResponse;
   setQuery: (query: string) => void;
@@ -28,7 +29,7 @@ interface City {
   state: string;
 }
 
-const Header: React.FC<HeaderProps> = ({query, setQuery, setChosenCity, weatherData}) => {
+const Header: React.FC<HeaderProps> = ({query, setQuery, setChosenCity, weatherData, setLastAddedCity}) => {
    
   const dispatch = useAppDispatch();  
   const user = useAppSelector((state)=> state.user);
@@ -77,6 +78,8 @@ const Header: React.FC<HeaderProps> = ({query, setQuery, setChosenCity, weatherD
 
   const handleAddCity = async () => {
     await addSity(dispatch, weatherData.currentDay.name);
+    setLastAddedCity( weatherData.currentDay.name);
+    handleCancelCity();
   }
 
 
