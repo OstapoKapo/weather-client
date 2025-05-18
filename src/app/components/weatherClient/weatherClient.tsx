@@ -26,7 +26,7 @@ const WeatherClient: React.FC<WeatherClientProps> = ({defaultWeather}) => {
 
   const [query, setQuery] = useState<string>('');
   const [localCity, setLocalCity] = useState<weatherResponse | null>(null);
-  const [weatherData, setWeatherData] = useState<weatherResponse>(defaultWeather);
+  const [weatherData, setWeatherData] = useState<weatherResponse >(defaultWeather);
   const [choosenCity, setChosenCity] = useState<string>('');
   const [homeKey, setHomeKey] = useState<boolean>(false);
   const [page, setPage] = useState<number>(0);
@@ -39,12 +39,15 @@ const WeatherClient: React.FC<WeatherClientProps> = ({defaultWeather}) => {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(async (position) => {
         const { latitude, longitude } = position.coords;
-        const city = await getCityByCoords(latitude,longitude);
+        const city = await getCityByCoords(latitude, longitude);
         const res = await getWeatherByCity(city);
-        setLocalCity(res);
-        setHomeKey(true);
-        setWeatherData(res); // замінює погоду
+        setWeatherData(res);
+      }, () => {
+        // Якщо користувач не дозволив геолокацію, ставимо погоду по замовчуванню
+        setWeatherData(defaultWeather);
       });
+    } else {
+      setWeatherData(defaultWeather);
     }
   }, []);
 
