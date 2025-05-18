@@ -39,9 +39,9 @@ const WeatherClient: React.FC<WeatherClientProps> = ({defaultWeather}) => {
 
 
   useEffect(() => {
-    const fetchWeatherByGeolocation = async () => {
+    const fetchWeatherByGeolocation = () => {
       if ('geolocation' in navigator) {
-        navigator.geolocation.getCurrentPosition(
+        const watchId = navigator.geolocation.watchPosition(
           async (position) => {
             try {
               const { latitude, longitude } = position.coords;
@@ -55,26 +55,31 @@ const WeatherClient: React.FC<WeatherClientProps> = ({defaultWeather}) => {
               setWeatherData(defaultWeather);
             } finally {
               setGeoChecked(true);
+              // ❗️Зупиняємо спостереження після першого успішного результату
+              navigator.geolocation.clearWatch(watchId);
             }
           },
           (error) => {
             console.error('Geolocation error:', error);
             setWeatherData(defaultWeather);
-            setGeoChecked(true); 
+            setGeoChecked(true);
+            navigator.geolocation.clearWatch(watchId);
           },
           {
+            enableHighAccuracy: true,
             timeout: 10000,
             maximumAge: 0
           }
         );
       } else {
         setWeatherData(defaultWeather);
-        setGeoChecked(true); 
+        setGeoChecked(true);
       }
     };
   
     fetchWeatherByGeolocation();
   }, []);
+  
   
 
   useEffect(() => {
