@@ -120,24 +120,28 @@ const WeatherClient: React.FC<WeatherClientProps> = ({defaultWeather}) => {
 
 
   return (
-    <div className='main' style={{ backgroundImage: `url('/background/night-cloud.png')` }}>
-      <Header query={query} weatherData={weatherData} setQuery={setQuery} setChosenCity={setChosenCity}/>
-      <div className="container">
-        <CurrentWeather homeKey={homeKey} currentDay={weatherData.currentDay}/>
-        <div className="main__content" >
-          <HoursTemp  currentDesription={weatherData.currentDay.weather[0].description} hourlyForecast={weatherData.hourlyForecast}/>
-          <WindMapContainer currentDay = {weatherData.currentDay}/>
-          <DaysTemp currentDay = {weatherData.currentDay} forecast5Days={weatherData.forecast5Days}/>
-          <EqualBlock currentDay={weatherData.currentDay} type='sunrise'/>
-          <EqualBlock  currentDay={weatherData.currentDay} type='feelsLike'/>
-          <EqualBlock  currentDay={weatherData.currentDay} hourlyForecast={weatherData.hourlyForecast} type='precipitation'/>
-          <EqualBlock  currentDay={weatherData.currentDay}  type='pressure'/>
-          <EqualBlock  currentDay={weatherData.currentDay} type='humidity'/>
-          <EqualBlock currentDay={weatherData.currentDay} forecast5Days={weatherData.forecast5Days}  type='averages'/>
+    <>
+     {weatherData !== null ? 
+     ( <div className='main' style={{ backgroundImage: `url('/background/night-cloud.png')` }}>
+        <Header query={query} weatherData={weatherData} setQuery={setQuery} setChosenCity={setChosenCity}/>
+        <div className="container">
+          <CurrentWeather homeKey={homeKey} currentDay={weatherData.currentDay}/>
+          <div className="main__content" >
+            <HoursTemp  currentDesription={weatherData.currentDay.weather[0].description} hourlyForecast={weatherData.hourlyForecast}/>
+            <WindMapContainer currentDay = {weatherData.currentDay}/>
+            <DaysTemp currentDay = {weatherData.currentDay} forecast5Days={weatherData.forecast5Days}/>
+            <EqualBlock currentDay={weatherData.currentDay} type='sunrise'/>
+            <EqualBlock  currentDay={weatherData.currentDay} type='feelsLike'/>
+            <EqualBlock  currentDay={weatherData.currentDay} hourlyForecast={weatherData.hourlyForecast} type='precipitation'/>
+            <EqualBlock  currentDay={weatherData.currentDay}  type='pressure'/>
+            <EqualBlock  currentDay={weatherData.currentDay} type='humidity'/>
+            <EqualBlock currentDay={weatherData.currentDay} forecast5Days={weatherData.forecast5Days}  type='averages'/>
+          </div>
         </div>
-      </div>
-      <Pagination choosenCity={choosenCity} paginatedCities={paginatedCities} page={page} setPage={setPage}/>
-    </div>
+        <Pagination choosenCity={choosenCity} paginatedCities={paginatedCities} page={page} setPage={setPage}/>
+      </div>)
+     : ''}
+    </>
   );
 }
 
