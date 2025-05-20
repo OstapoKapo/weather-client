@@ -11,3 +11,13 @@ export const addSity = async (dispatch: AppDispatch, city: string) => {
     console.error('Auth error:', err);
   }
 };
+
+export const deleteCity = async (dispatch: AppDispatch, city: string) => {
+    try {
+      const res = await api.delete('/user/city', { data: { city } });
+      const cities = res.data;
+      dispatch(setBookmarks(cities));
+    } catch (err) {
+      console.error('Auth error:', err);
+    }
+  };

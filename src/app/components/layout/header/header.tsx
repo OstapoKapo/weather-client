@@ -4,14 +4,13 @@ import './header.scss';
 import Image from 'next/image';
 import debounce from 'lodash.debounce';
 import { fetchCities } from '@/services/weatherApi';
-import { addSity } from '@/services/user';
+import { addSity, deleteCity } from '@/services/user';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { weatherResponse } from '@/types';
 
 
 
 interface HeaderProps {
-  setLastAddedCity: (city: string) => void;
   query: string;
   weatherData: weatherResponse;
   setQuery: (query: string) => void;
@@ -29,7 +28,7 @@ interface City {
   state: string;
 }
 
-const Header: React.FC<HeaderProps> = ({query, setQuery, setChosenCity, weatherData, setLastAddedCity}) => {
+const Header: React.FC<HeaderProps> = ({query, setQuery, setChosenCity, weatherData}) => {
    
   const dispatch = useAppDispatch();  
   const user = useAppSelector((state)=> state.user);
@@ -78,17 +77,28 @@ const Header: React.FC<HeaderProps> = ({query, setQuery, setChosenCity, weatherD
 
   const handleAddCity = async () => {
     await addSity(dispatch, weatherData.currentDay.name);
-    setLastAddedCity( weatherData.currentDay.name);
+    handleCancelCity();
+  }
+
+  const handleDeleteCity = async () => {
+    await deleteCity(dispatch, weatherData.currentDay.name);
     handleCancelCity();
   }
 
 
   return (
         <div className="header">
-          <div style={{display: user.bookmarks.includes(weatherData.currentDay.name) ? 'none': 'flex'}} className="header__add-btn" onClick={handleAddCity}>
-            <Image alt='addImg' src={'/icon/add.svg'} width={20} height={20}></Image>
-            <p>Add</p>
-          </div>
+          {user.bookmarks.includes(weatherData.currentDay.name) ? (
+            <div  className="header__add-btn" onClick={handleDeleteCity}>
+              <Image alt='addImg' src={'/icon/delete.svg'} width={20} height={20}></Image>
+              <p>Delete</p>
+            </div>
+          ) : (
+            <div className="header__add-btn" onClick={handleAddCity}>
+             <Image alt='addImg' src={'/icon/add.svg'} width={20} height={20}></Image>
+             <p>Add</p>
+            </div>
+          )}
           <div className='header__search'>
             <div className="header__inp">
               <Image alt='searchImg' src={'/icon/search.svg'} width={20} height={20}></Image>

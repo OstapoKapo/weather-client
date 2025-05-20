@@ -6,14 +6,15 @@ import HoursTemp from '../weather/hoursTemp/hoursTemp';
 import WindMapContainer from '../weather/windMapContainer/windMapContainer';
 import DaysTemp from '../weather/daysTemp/daysTemp';
 import EqualBlock from '../weather/equalBlock/equalBlock';
+import LoadingScreen from '../ui/loadingScreen/loadingScreen';
 import Pagination from '../ui/pagination/pagination';
 import Header from '../layout/header/header';
 
+import { motion } from 'framer-motion';
 import { getCityByCoords, getWeatherByCity } from '@/services/weatherApi';
 import { useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { initUser } from '@/services/auth';
-import { set } from 'lodash';
 
 interface WeatherClientProps {
     defaultWeather: weatherResponse;
@@ -32,16 +33,16 @@ const WeatherClient: React.FC<WeatherClientProps> = ({defaultWeather}) => {
   const [homeKey, setHomeKey] = useState<boolean>(false);
   const [page, setPage] = useState<number>(0);
   const [paginatedCities, setPaginatedCities] = useState<string[]>([]);
-  const [lastAddedCity, setLastAddedCity] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
 
   
-
-
+  setTimeout(() => setIsLoading(false), 400); // навіть затримку можеш зробити, щоб м’якше
 
   useEffect(() => {
     const fetchWeatherByGeolocation = () => {
       if ('geolocation' in navigator) {
-        const watchId = navigator.geolocation.watchPosition(
+        navigator.geolocation.getCurrentPosition(
           async (position) => {
             try {
               const { latitude, longitude } = position.coords;
@@ -55,29 +56,30 @@ const WeatherClient: React.FC<WeatherClientProps> = ({defaultWeather}) => {
               setWeatherData(defaultWeather);
             } finally {
               setGeoChecked(true);
-              // ❗️Зупиняємо спостереження після першого успішного результату
-              navigator.geolocation.clearWatch(watchId);
+              setIsLoading(false);
             }
           },
           (error) => {
             console.error('Geolocation error:', error);
             setWeatherData(defaultWeather);
             setGeoChecked(true);
-            navigator.geolocation.clearWatch(watchId);
+            setIsLoading(false);
           },
           {
             enableHighAccuracy: true,
             timeout: 10000,
-            maximumAge: 0
+            maximumAge: 0,
           }
         );
       } else {
         setWeatherData(defaultWeather);
         setGeoChecked(true);
+        setIsLoading(false);
       }
     };
   
-    fetchWeatherByGeolocation();
+    const timer = setTimeout(fetchWeatherByGeolocation, 100);
+    return () => clearTimeout(timer);
   }, []);
   
   
@@ -150,14 +152,25 @@ const WeatherClient: React.FC<WeatherClientProps> = ({defaultWeather}) => {
     handlePage();
   }, [page, paginatedCities, localCity]);
 
+  if (isLoading) {
+    return <LoadingScreen/>;
+  }
+
 
   return (
     <>
-      {geoChecked && weatherData !== null ? 
-     ( <div className='main' style={{ backgroundImage: `url('/background/night-cloud.png')` }}>
-        <Header setLastAddedCity={setLastAddedCity} query={query} weatherData={weatherData} setQuery={setQuery} setChosenCity={setChosenCity}/>
+    {weatherData !== null ? 
+     (
+        <motion.div
+      key={'animation'}
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10 }}
+      transition={{ duration: 0.5 }}>
+         <div className='main' style={{ backgroundImage: `url('/background/night-cloud.png')` }}>
+        <Header  query={query} weatherData={weatherData} setQuery={setQuery} setChosenCity={setChosenCity}/>
         <div className="container">
-          <CurrentWeather homeKey={homeKey} currentDay={weatherData.currentDay}/>
+          {geoChecked && <CurrentWeather homeKey={homeKey} currentDay={weatherData.currentDay}/>}
           <div className="main__content" >
             <HoursTemp  currentDesription={weatherData.currentDay.weather[0].description} hourlyForecast={weatherData.hourlyForecast}/>
             <WindMapContainer currentDay = {weatherData.currentDay}/>
@@ -171,7 +184,8 @@ const WeatherClient: React.FC<WeatherClientProps> = ({defaultWeather}) => {
           </div>
         </div>
         <Pagination choosenCity={choosenCity} paginatedCities={paginatedCities} page={page} setPage={setPage}/>
-      </div>) : <div className='main' style={{ backgroundImage: `url('/background/night-cloud.png')`, height: '100vh' }}></div> }
+      </div>
+      </motion.div>) : <div className='main' style={{ backgroundImage: `url('/background/night-cloud.png')`, height: '100vh' }}></div> }
     </>
   );
 }

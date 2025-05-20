@@ -14,9 +14,9 @@ export const getWeatherByCity = async (city: string): Promise<weatherResponse> =
         if (error.response && error.response.status === 500) {
           alert('Sorry, we can not find this city');
         } else {
-          alert('An error occurred while fetching weather data');
+          alert('Sorry, but now our service is not available');
         }
-        throw error; // Можеш кидати помилку далі або повертати дефолт
+        throw error;
       }
 };
 
