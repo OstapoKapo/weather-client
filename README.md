@@ -35,7 +35,7 @@
 - [NestJS](https://nestjs.com/)
 - [TypeScript](https://www.typescriptlang.org/)
 - [Redux Toolkit](https://redux-toolkit.js.org/)
-- [SCSS](https://sass-lang.com/) або TailwindCSS (за вибором)
+- [SCSS](https://sass-lang.com/)
 - Weather API (напр., [OpenWeather](https://openweathermap.org/api))
 
 ---
