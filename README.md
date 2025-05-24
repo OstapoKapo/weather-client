@@ -1,9 +1,9 @@
 <h1 align="center">🌦️ Weather App</h1>
 
 <p align="center">
-  <img src="https://img.shields.io/github/stars/yourname/weather-app?style=flat-square" />
-  <img src="https://img.shields.io/github/issues/yourname/weather-app?style=flat-square" />
-  <img src="https://img.shields.io/github/license/yourname/weather-app?style=flat-square" />
+  <img src="https://img.shields.io/github/stars/OstapoKapo/weather-client?style=flat-square" />
+  <img src="https://img.shields.io/github/issues/OstapoKapo/weather-client?style=flat-square" />
+  <img src="https://img.shields.io/github/license/OstapoKapo/weather-client?style=flat-square" />
 </p>
 
 <p align="center">
